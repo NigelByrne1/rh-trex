@@ -2,7 +2,7 @@ apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
   annotations:
-    build.appstudio.openshift.io/repo: https://github.com/openshift-online/rh-trex?rev={{revision}}
+    build.appstudio.openshift.io/repo: https://github.com/NigelByrne1/rh-trex?rev={{revision}}
     build.appstudio.redhat.com/commit_sha: '{{revision}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/max-keep-runs: "3"
@@ -10,10 +10,10 @@ metadata:
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: rh-trex
-    appstudio.openshift.io/component: rh-trex
+    appstudio.openshift.io/component: rh-trex-ab891
     pipelines.appstudio.openshift.io/type: build
   name: rh-trex-on-push
-  namespace: rh-trex-tenant
+  namespace: nbyrne-tenant
 spec:
   params:
   - name: dockerfile
@@ -21,7 +21,7 @@ spec:
   - name: git-url
     value: '{{source_url}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/rh-trex-tenant/rh-trex/rh-trex:{{revision}}
+    value: quay.io/redhat-user-workloads-stage/nbyrne-tenant/rh-trex-ab891:{{revision}}
   - name: path-context
     value: .
   - name: revision
