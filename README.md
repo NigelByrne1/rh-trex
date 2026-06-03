@@ -390,7 +390,7 @@ Minimal Konflux integration test that emits standardized Tekton `TEST_OUTPUT` wi
 |------|---------|
 | `tasks/test-output-with-note/0.1/test-output-with-note.yaml` | Task that writes `TEST_OUTPUT` JSON (step exits 0; pass/fail is in `result`) |
 | `pipelines/integration-footnote-demo.yaml` | Pipeline with one or two failing-in-JSON tasks that share the same note |
-| `konflux/integration-test-scenario-footnote-demo.yaml` | `IntegrationTestScenario` for application `rh-trex` in tenant `rh-trex-tenant` |
+| `konflux/integration-test-scenario-footnote-demo.yaml` | `IntegrationTestScenario` for application `rh-trex` in tenant `nbyrne-tenant` |
 
 **Enable the scenario**
 
@@ -413,10 +413,10 @@ Minimal Konflux integration test that emits standardized Tekton `TEST_OUTPUT` wi
 
 ```sh
 # List integration PipelineRuns in the tenant namespace
-oc get pipelinerun -n rh-trex-tenant -l appstudio.openshift.io/application=rh-trex
+oc get pipelinerun -n nbyrne-tenant -l appstudio.openshift.io/application=rh-trex
 
 # Inspect TEST_OUTPUT on a child TaskRun (replace names)
-kubectl get taskrun <taskrun-name> -n rh-trex-tenant \
+kubectl get taskrun <taskrun-name> -n nbyrne-tenant \
   -o jsonpath='{.status.results[?(@.name=="TEST_OUTPUT")].value}' | jq .
 ```
 
