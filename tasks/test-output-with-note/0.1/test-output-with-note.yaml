@@ -1,0 +1,44 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: test-output-with-note
+spec:
+  description: Emits TEST_OUTPUT with an optional note for integration-service status reporting
+  results:
+    - name: TEST_OUTPUT
+      description: Standardized test output (JSON)
+  params:
+    - name: RESULT
+      description: SUCCESS, FAILURE, WARNING, SKIPPED, or ERROR
+      default: FAILURE
+    - name: NOTE
+      description: Shown in Note column and footnotes when non-empty
+      default: "https://example.com/forced-integration-test-artifact-link"
+    - name: FAILURES
+      default: "1"
+    - name: WARNINGS
+      default: "0"
+    - name: SUCCESSES
+      default: "0"
+  steps:
+    - name: write-test-output
+      image: quay.io/konflux-ci/konflux-test:latest
+      computeResources:
+        limits:
+          memory: 256Mi
+        requests:
+          memory: 128Mi
+          cpu: 100m
+      script: |
+        #!/bin/bash
+        set -euo pipefail
+        TEST_OUTPUT=$(jq -rc \
+          --arg date "$(date -u --iso-8601=seconds)" \
+          --arg result "$(params.RESULT)" \
+          --arg note "$(params.NOTE)" \
+          --argjson failures "$(params.FAILURES)" \
+          --argjson warnings "$(params.WARNINGS)" \
+          --argjson successes "$(params.SUCCESSES)" \
+          --null-input \
+          '{result: $result, timestamp: $date, note: $note, successes: $successes, failures: $failures, warnings: $warnings}')
+        echo -n "${TEST_OUTPUT}" | tee "$(results.TEST_OUTPUT.path)"

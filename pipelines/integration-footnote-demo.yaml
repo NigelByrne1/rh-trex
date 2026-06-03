@@ -1,0 +1,41 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: integration-footnote-demo
+spec:
+  description: Demo pipeline to force TEST_OUTPUT.note in integration status comments
+  tasks:
+    - name: demo-failure-with-note
+      taskRef:
+        resolver: git
+        params:
+          - name: url
+            value: https://github.com/NigelByrne1/rh-trex
+          - name: revision
+            value: konflux-footnote-demo
+          - name: pathInRepo
+            value: tasks/test-output-with-note/0.1/test-output-with-note.yaml
+      params:
+        - name: RESULT
+          value: FAILURE
+        - name: NOTE
+          value: "https://example.com/forced-artifact-link-scenario-a"
+        - name: FAILURES
+          value: "1"
+    - name: demo-failure-with-same-note
+      taskRef:
+        resolver: git
+        params:
+          - name: url
+            value: https://github.com/NigelByrne1/rh-trex
+          - name: revision
+            value: konflux-footnote-demo
+          - name: pathInRepo
+            value: tasks/test-output-with-note/0.1/test-output-with-note.yaml
+      params:
+        - name: RESULT
+          value: FAILURE
+        - name: NOTE
+          value: "https://example.com/forced-artifact-link-scenario-a"
+        - name: FAILURES
+          value: "1"
