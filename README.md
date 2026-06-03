@@ -392,16 +392,28 @@ Minimal Konflux integration test that emits standardized Tekton `TEST_OUTPUT` wi
 | `pipelines/integration-footnote-demo.yaml` | Pipeline with one or two failing-in-JSON tasks that share the same note |
 | `konflux/integration-test-scenario-footnote-demo.yaml` | `IntegrationTestScenario` for application `rh-trex` in tenant `nbyrne-tenant` |
 
-**Enable the scenario**
+**Enable the scenario (one-time)**
 
-1. This repo’s demo defaults to fork `https://github.com/NigelByrne1/rh-trex` and branch `konflux-footnote-demo`. After merge to `main`, update `revision` to `main` in `konflux/integration-test-scenario-footnote-demo.yaml` and `pipelines/integration-footnote-demo.yaml`.
-2. Apply the scenario (or create equivalent config in Konflux UI):
+**Konflux UI (staging):** Application `rh-trex` → **Integration tests** → **Add integration test**
 
-   ```sh
-   oc apply -f konflux/integration-test-scenario-footnote-demo.yaml
-   ```
+| Field | Value |
+|-------|--------|
+| Name | `footnote-demo` |
+| Git URL | `https://github.com/NigelByrne1/rh-trex` |
+| Revision | `main` |
+| Path in repo | `pipelines/integration-footnote-demo.yaml` |
+| Contexts | `pull-request` and `push` |
 
-3. Open or update a pull request so the `pull-request` context runs integration tests.
+Or with cluster access:
+
+```sh
+oc apply -f konflux/integration-test-scenario-footnote-demo.yaml
+```
+
+**Trigger the footnote demo**
+
+1. **GitHub PR comment / Check details (recommended):** Open any PR to `main` on your fork after the scenario exists. Konflux builds the component, creates a snapshot, then runs `integration-footnote-demo`.
+2. **Push to `main`:** With the `push` context, a successful build on `main` can also trigger the integration pipeline (status may appear on the commit rather than an MR thread).
 
 **What to expect**
 

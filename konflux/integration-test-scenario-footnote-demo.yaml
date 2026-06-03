@@ -6,7 +6,9 @@ metadata:
 spec:
   application: rh-trex
   contexts:
-    - description: Run on pull requests
+    - description: Run after snapshot on push to main (fork testing)
+      name: push
+    - description: Run on pull requests (GitHub/GitLab status comments)
       name: pull-request
   resolverRef:
     resolver: git
