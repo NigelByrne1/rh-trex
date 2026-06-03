@@ -14,6 +14,6 @@ spec:
       - name: url
         value: https://github.com/NigelByrne1/rh-trex
       - name: revision
-        value: konflux-footnote-demo
+        value: main
       - name: pathInRepo
         value: pipelines/integration-footnote-demo.yaml

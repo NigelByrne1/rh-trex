@@ -12,7 +12,7 @@ spec:
           - name: url
             value: https://github.com/NigelByrne1/rh-trex
           - name: revision
-            value: konflux-footnote-demo
+            value: main
           - name: pathInRepo
             value: tasks/test-output-with-note/0.1/test-output-with-note.yaml
       params:
@@ -29,7 +29,7 @@ spec:
           - name: url
             value: https://github.com/NigelByrne1/rh-trex
           - name: revision
-            value: konflux-footnote-demo
+            value: main
           - name: pathInRepo
             value: tasks/test-output-with-note/0.1/test-output-with-note.yaml
       params:
