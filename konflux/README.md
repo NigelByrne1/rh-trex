@@ -12,7 +12,8 @@ If the error mentions a long string like `Konflux Staging / rh-trex-on-pull-requ
 | Application | `rh-trex` |
 | Git URL | `https://github.com/NigelByrne1/rh-trex` |
 | Revision | `main` |
-| **Path in repository** | `pipelines/integration-footnote-demo.yaml` |
+| **Resource kind** | `pipelinerun` (required — not `pipeline`) |
+| **Path in repository** | `pipelineruns/integration-footnote-demo.yaml` |
 | Contexts | `pull-request`, `push` |
 
 Or apply from git (recommended):
@@ -33,7 +34,8 @@ Expected:
 ```
 url=https://github.com/NigelByrne1/rh-trex
 revision=main
-pathInRepo=pipelines/integration-footnote-demo.yaml
+resourceKind=pipelinerun (in spec.resolverRef)
+pathInRepo=pipelineruns/integration-footnote-demo.yaml
 ```
 
 ## Component builds vs integration

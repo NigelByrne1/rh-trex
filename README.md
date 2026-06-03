@@ -389,7 +389,8 @@ Minimal Konflux integration test that emits standardized Tekton `TEST_OUTPUT` wi
 | Path | Purpose |
 |------|---------|
 | `tasks/test-output-with-note/0.1/test-output-with-note.yaml` | Task that writes `TEST_OUTPUT` JSON (step exits 0; pass/fail is in `result`) |
-| `pipelines/integration-footnote-demo.yaml` | Pipeline with one or two failing-in-JSON tasks that share the same note |
+| `pipelineruns/integration-footnote-demo.yaml` | PipelineRun template with inline `pipelineSpec` (required by integration-service) |
+| `pipelines/integration-footnote-demo.yaml` | Optional Pipeline reference (not used by scenario) |
 | `konflux/integration-test-scenario-footnote-demo.yaml` | `IntegrationTestScenario` for application `rh-trex` in tenant `nbyrne-tenant` |
 
 **Enable the scenario (one-time)**
@@ -401,7 +402,8 @@ Minimal Konflux integration test that emits standardized Tekton `TEST_OUTPUT` wi
 | Name | `footnote-demo` |
 | Git URL | `https://github.com/NigelByrne1/rh-trex` |
 | Revision | `main` |
-| Path in repo | `pipelines/integration-footnote-demo.yaml` |
+| Resource kind | `pipelinerun` |
+| Path in repo | `pipelineruns/integration-footnote-demo.yaml` |
 | Contexts | `pull-request` and `push` |
 
 Or with cluster access:
