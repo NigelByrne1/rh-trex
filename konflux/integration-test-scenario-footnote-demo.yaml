@@ -1,0 +1,19 @@
+apiVersion: appstudio.redhat.com/v1beta2
+kind: IntegrationTestScenario
+metadata:
+  name: footnote-demo
+  namespace: nbyrne-tenant
+spec:
+  application: rh-trex
+  contexts:
+    - description: Run on pull requests
+      name: pull-request
+  resolverRef:
+    resolver: git
+    params:
+      - name: url
+        value: https://github.com/NigelByrne1/rh-trex
+      - name: revision
+        value: konflux-footnote-demo
+      - name: pathInRepo
+        value: pipelines/integration-footnote-demo.yaml

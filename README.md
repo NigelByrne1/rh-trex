@@ -379,3 +379,47 @@ curl http://localhost:8000/api/rh-trex/v1/{kinds} | jq
 - Type-safe - compile-time checks for service access
 
 For more detailed information about the generator and plugin system, see [CLAUDE.md](./CLAUDE.md).
+
+## Konflux integration test footnote demo
+
+Minimal Konflux integration test that emits standardized Tekton `TEST_OUTPUT` with a non-empty `note` field. Use this to validate integration-service status comments (GitLab MR table with Note column and markdown footnotes, or GitHub Checks details)—not for real Testing Farm coverage.
+
+**Artifacts:**
+
+| Path | Purpose |
+|------|---------|
+| `tasks/test-output-with-note/0.1/test-output-with-note.yaml` | Task that writes `TEST_OUTPUT` JSON (step exits 0; pass/fail is in `result`) |
+| `pipelines/integration-footnote-demo.yaml` | Pipeline with one or two failing-in-JSON tasks that share the same note |
+| `konflux/integration-test-scenario-footnote-demo.yaml` | `IntegrationTestScenario` for application `rh-trex` in tenant `nbyrne-tenant` |
+
+**Enable the scenario**
+
+1. This repo’s demo defaults to fork `https://github.com/NigelByrne1/rh-trex` and branch `konflux-footnote-demo`. After merge to `main`, update `revision` to `main` in `konflux/integration-test-scenario-footnote-demo.yaml` and `pipelines/integration-footnote-demo.yaml`.
+2. Apply the scenario (or create equivalent config in Konflux UI):
+
+   ```sh
+   oc apply -f konflux/integration-test-scenario-footnote-demo.yaml
+   ```
+
+3. Open or update a pull request so the `pull-request` context runs integration tests.
+
+**What to expect**
+
+- Integration `PipelineRun` condition: `Succeeded=True` (Tekton must not fail the step; failures are only in `TEST_OUTPUT.result`).
+- At least one task reports `FAILURE` or `WARNING` in `TEST_OUTPUT` so integration-service posts the full status table (not only the short “passed” summary).
+- MR/PR comment (or GitHub Check details): task table with a **Note** column and footnote lines such as `task-name[^task-name]` with `[^task-name]: <note>` at the bottom.
+
+**Verify on cluster**
+
+```sh
+# List integration PipelineRuns in the tenant namespace
+oc get pipelinerun -n nbyrne-tenant -l appstudio.openshift.io/application=rh-trex
+
+# Inspect TEST_OUTPUT on a child TaskRun (replace names)
+kubectl get taskrun <taskrun-name> -n nbyrne-tenant \
+  -o jsonpath='{.status.results[?(@.name=="TEST_OUTPUT")].value}' | jq .
+```
+
+Expect `"note": "https://example.com/forced-artifact-link-scenario-a"` and `"result": "FAILURE"` while the TaskRun step completed successfully.
+
+**References:** [Standardized outputs (note field)](https://konflux-ci.dev/docs/integration/standardized-test-outputs/), [Custom integration tests](https://konflux-ci.dev/docs/integration/creating-integration-tests/), upstream [integration-examples](https://github.com/konflux-ci/integration-examples).
