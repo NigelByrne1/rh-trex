@@ -1,10 +1,19 @@
 # Konflux footnote-demo setup (`nbyrne-tenant`)
 
-## Fix "file does not exist" / invalid integration test
+## Staging git resolver rules
 
-If the error mentions a long string like `Konflux Staging / rh-trex-on-pull-request failed...`, the **Path in repository** field in the UI was filled with pasted log text by mistake.
+Konflux Staging’s git resolver accepts **`pipeline`** only (Tekton `Pipeline`), not `PipelineRun`.
 
-**Delete** the broken scenario in Konflux UI (or `oc delete integrationtestscenario footnote-demo -n nbyrne-tenant`), then recreate with **exactly** these values:
+| Use | Do not use |
+|-----|------------|
+| Resource kind: **`pipeline`** | `pipelinerun` (error: “must be … Pipeline Task StepAction”) |
+| Path: `pipelines/integration-footnote-demo.yaml` | `pipelineruns/integration-footnote-demo.yaml` |
+
+Tasks are **inline** in the Pipeline (no nested `taskRef` git resolver).
+
+## Konflux UI — recreate `footnote-demo`
+
+Delete the scenario and add again:
 
 | Field | Value |
 |-------|--------|
@@ -12,33 +21,36 @@ If the error mentions a long string like `Konflux Staging / rh-trex-on-pull-requ
 | Application | `rh-trex` |
 | Git URL | `https://github.com/NigelByrne1/rh-trex` |
 | Revision | `main` |
-| **Resource kind** | `pipelinerun` (required — not `pipeline`) |
-| **Path in repository** | `pipelineruns/integration-footnote-demo.yaml` |
+| Resource kind | **`pipeline`** |
+| Path in repository | `pipelines/integration-footnote-demo.yaml` |
 | Contexts | `pull-request`, `push` |
 
-Or apply from git (recommended):
+Or:
 
 ```sh
+oc delete integrationtestscenario footnote-demo -n nbyrne-tenant
 oc apply -f konflux/integration-test-scenario-footnote-demo.yaml
 ```
 
-## Verify resolver params on cluster
+## Do you need a new PR?
+
+**No**, if the scenario’s **revision** is `main` and the fix is pushed to `main`.
+
+After updating the scenario and pushing the pipeline fix to `main`:
+
+- Re-run integration on the application/snapshot in Konflux UI, **or**
+- Push an empty commit to an open PR, **or**
+- Open a new PR only if you want a fresh build + integration cycle.
+
+## Verify resolver params
 
 ```sh
 oc get integrationtestscenario footnote-demo -n nbyrne-tenant \
-  -o jsonpath='{range .spec.resolverRef.params[*]}{.name}={.value}{"\n"}{end}'
+  -o jsonpath='{.spec.resolverRef}{"\n"}' | jq .
 ```
 
-Expected:
+Expect `resourceKind: pipeline` and `pathInRepo: pipelines/integration-footnote-demo.yaml`.
 
-```
-url=https://github.com/NigelByrne1/rh-trex
-revision=main
-resourceKind=pipelinerun (in spec.resolverRef)
-pathInRepo=pipelineruns/integration-footnote-demo.yaml
-```
+## Component builds
 
-## Component builds vs integration
-
-- Component **`rh-trex-ab891`** uses `.tekton/rh-trex-ab891-on-pull-request.yaml` (PAC).
-- Do **not** use the legacy `rh-trex-on-pull-request` name; that template was removed from this fork to avoid duplicate/conflicting PR pipelines.
+Component **`rh-trex-ab891`** uses `.tekton/rh-trex-ab891-on-pull-request.yaml` only.

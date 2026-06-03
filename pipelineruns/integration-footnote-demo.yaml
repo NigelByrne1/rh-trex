@@ -1,5 +1,5 @@
-# PipelineRun template for IntegrationTestScenario (resourceKind: pipelinerun).
-# integration-service requires pipelineSpec or pipelineRef on the resolved object.
+# NOT used on Konflux Staging — git resolver rejects PipelineRun (use pipelines/ instead).
+# Kept as reference for clusters that support resourceKind: pipelinerun.
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:

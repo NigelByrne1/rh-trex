@@ -1,3 +1,6 @@
+# Pipeline for IntegrationTestScenario git resolver (resourceKind: pipeline).
+# Git resolver accepts tekton.dev Pipeline only — not PipelineRun.
+# Tasks are inline (no nested git taskRef) so integration-service can build the PipelineRun.
 apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
@@ -6,15 +9,6 @@ spec:
   description: Demo pipeline to force TEST_OUTPUT.note in integration status comments
   tasks:
     - name: demo-failure-with-note
-      taskRef:
-        resolver: git
-        params:
-          - name: url
-            value: https://github.com/NigelByrne1/rh-trex
-          - name: revision
-            value: main
-          - name: pathInRepo
-            value: tasks/test-output-with-note/0.1/test-output-with-note.yaml
       params:
         - name: RESULT
           value: FAILURE
@@ -22,16 +16,48 @@ spec:
           value: "https://example.com/forced-artifact-link-scenario-a"
         - name: FAILURES
           value: "1"
+        - name: WARNINGS
+          value: "0"
+        - name: SUCCESSES
+          value: "0"
+      taskSpec:
+        results:
+          - name: TEST_OUTPUT
+            description: Standardized test output (JSON)
+        params:
+          - name: RESULT
+            type: string
+          - name: NOTE
+            type: string
+          - name: FAILURES
+            type: string
+          - name: WARNINGS
+            type: string
+          - name: SUCCESSES
+            type: string
+        steps:
+          - name: write-test-output
+            image: quay.io/konflux-ci/konflux-test:latest
+            computeResources:
+              limits:
+                memory: 256Mi
+              requests:
+                memory: 128Mi
+                cpu: 100m
+            script: |
+              #!/bin/bash
+              set -euo pipefail
+              TEST_OUTPUT=$(jq -rc \
+                --arg date "$(date -u --iso-8601=seconds)" \
+                --arg result "$(params.RESULT)" \
+                --arg note "$(params.NOTE)" \
+                --argjson failures "$(params.FAILURES)" \
+                --argjson warnings "$(params.WARNINGS)" \
+                --argjson successes "$(params.SUCCESSES)" \
+                --null-input \
+                '{result: $result, timestamp: $date, note: $note, successes: $successes, failures: $failures, warnings: $warnings}')
+              echo -n "${TEST_OUTPUT}" | tee "$(results.TEST_OUTPUT.path)"
     - name: demo-failure-with-same-note
-      taskRef:
-        resolver: git
-        params:
-          - name: url
-            value: https://github.com/NigelByrne1/rh-trex
-          - name: revision
-            value: main
-          - name: pathInRepo
-            value: tasks/test-output-with-note/0.1/test-output-with-note.yaml
       params:
         - name: RESULT
           value: FAILURE
@@ -39,3 +65,44 @@ spec:
           value: "https://example.com/forced-artifact-link-scenario-a"
         - name: FAILURES
           value: "1"
+        - name: WARNINGS
+          value: "0"
+        - name: SUCCESSES
+          value: "0"
+      taskSpec:
+        results:
+          - name: TEST_OUTPUT
+            description: Standardized test output (JSON)
+        params:
+          - name: RESULT
+            type: string
+          - name: NOTE
+            type: string
+          - name: FAILURES
+            type: string
+          - name: WARNINGS
+            type: string
+          - name: SUCCESSES
+            type: string
+        steps:
+          - name: write-test-output
+            image: quay.io/konflux-ci/konflux-test:latest
+            computeResources:
+              limits:
+                memory: 256Mi
+              requests:
+                memory: 128Mi
+                cpu: 100m
+            script: |
+              #!/bin/bash
+              set -euo pipefail
+              TEST_OUTPUT=$(jq -rc \
+                --arg date "$(date -u --iso-8601=seconds)" \
+                --arg result "$(params.RESULT)" \
+                --arg note "$(params.NOTE)" \
+                --argjson failures "$(params.FAILURES)" \
+                --argjson warnings "$(params.WARNINGS)" \
+                --argjson successes "$(params.SUCCESSES)" \
+                --null-input \
+                '{result: $result, timestamp: $date, note: $note, successes: $successes, failures: $failures, warnings: $warnings}')
+              echo -n "${TEST_OUTPUT}" | tee "$(results.TEST_OUTPUT.path)"

@@ -12,11 +12,11 @@ spec:
       name: pull-request
   resolverRef:
     resolver: git
-    resourceKind: pipelinerun
+    resourceKind: pipeline
     params:
       - name: url
         value: https://github.com/NigelByrne1/rh-trex
       - name: revision
         value: main
       - name: pathInRepo
-        value: pipelineruns/integration-footnote-demo.yaml
+        value: pipelines/integration-footnote-demo.yaml
