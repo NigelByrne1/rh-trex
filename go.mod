@@ -26,7 +26,7 @@ require (
 	github.com/prometheus/client_golang v1.16.0
 	github.com/segmentio/ksuid v1.0.2
 	github.com/spf13/cobra v0.0.5
-	github.com/spf13/pflag v1.0.5
+	github.com/spf13/pflag v1.0.10
 	github.com/testcontainers/testcontainers-go v0.33.0
 	github.com/testcontainers/testcontainers-go/modules/postgres v0.33.0
 	github.com/yaacov/tree-search-language v0.0.0-20190923184055-1c2dad2e354b
