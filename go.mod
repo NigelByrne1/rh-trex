@@ -30,7 +30,7 @@ require (
 	github.com/testcontainers/testcontainers-go v0.33.0
 	github.com/testcontainers/testcontainers-go/modules/postgres v0.33.0
 	github.com/yaacov/tree-search-language v0.0.0-20190923184055-1c2dad2e354b
-	gopkg.in/resty.v1 v1.12.0
+	gopkg.in/resty.v2 v2.17.2
 	gorm.io/driver/postgres v1.0.5
 	gorm.io/gorm v1.20.5
 )
