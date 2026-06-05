@@ -13,7 +13,7 @@ require (
 	github.com/getsentry/sentry-go v0.20.0
 	github.com/ghodss/yaml v1.0.0
 	github.com/go-gormigrate/gormigrate/v2 v2.0.0
-	github.com/golang-jwt/jwt/v4 v4.5.0
+	github.com/golang-jwt/jwt/v4 v4.5.2
 	github.com/golang/glog v1.2.5
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/handlers v1.4.2
@@ -21,8 +21,8 @@ require (
 	github.com/jinzhu/inflection v1.0.0
 	github.com/lib/pq v1.10.9
 	github.com/mendsley/gojwk v0.0.0-20141217222730-4d5ec6e58103
-	github.com/onsi/gomega v1.27.1
-	github.com/openshift-online/ocm-sdk-go v0.1.334
+	github.com/onsi/gomega v1.29.0
+	github.com/openshift-online/ocm-sdk-go v0.1.502
 	github.com/prometheus/client_golang v1.16.0
 	github.com/segmentio/ksuid v1.0.2
 	github.com/spf13/cobra v0.0.5
@@ -94,6 +94,8 @@ require (
 	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.1 // indirect
+	github.com/openshift-online/ocm-api-model/clientapi v0.0.456 // indirect
+	github.com/openshift-online/ocm-api-model/model v0.0.456 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/power-devops/perfstat v0.0.0-20210106213030-5aafc221ea8c // indirect
 	github.com/prometheus/client_model v0.3.0 // indirect
@@ -102,6 +104,7 @@ require (
 	github.com/shirou/gopsutil/v3 v3.23.12 // indirect
 	github.com/shoenig/go-m1cpu v0.1.6 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
+	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966 // indirect
 	github.com/smartystreets/goconvey v1.8.1 // indirect
 	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect
@@ -115,6 +118,7 @@ require (
 	go.opentelemetry.io/otel/trace v1.38.0 // indirect
 	golang.org/x/crypto v0.41.0 // indirect
 	golang.org/x/net v0.43.0 // indirect
+	golang.org/x/oauth2 v0.30.0 // indirect
 	golang.org/x/sys v0.36.0 // indirect
 	golang.org/x/text v0.29.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20251014184007-4626949a642f // indirect
