@@ -32,7 +32,7 @@ require (
 	github.com/yaacov/tree-search-language v0.0.0-20190923184055-1c2dad2e354b
 	gopkg.in/resty.v1 v1.12.0
 	gorm.io/driver/postgres v1.0.5
-	gorm.io/gorm v1.20.5
+	gorm.io/gorm v1.31.1
 )
 
 require (
@@ -72,7 +72,7 @@ require (
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
 	github.com/jackc/pgtype v1.11.0 // indirect
 	github.com/jackc/pgx/v4 v4.16.0 // indirect
-	github.com/jinzhu/now v1.1.1 // indirect
+	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.18.0 // indirect
 	github.com/lann/builder v0.0.0-20180802200727-47ae307949d0 // indirect
