@@ -1,8 +1,6 @@
 module github.com/openshift-online/rh-trex
 
-go 1.24.0
-
-toolchain go1.24.9
+go 1.25.0
 
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.2
@@ -10,7 +8,7 @@ require (
 	github.com/auth0/go-jwt-middleware v0.0.0-20190805220309-36081240882b
 	github.com/bxcodec/faker/v3 v3.2.0
 	github.com/docker/go-healthcheck v0.1.0
-	github.com/getsentry/sentry-go v0.20.0
+	github.com/getsentry/sentry-go v0.46.2
 	github.com/ghodss/yaml v1.0.0
 	github.com/go-gormigrate/gormigrate/v2 v2.0.0
 	github.com/golang-jwt/jwt/v4 v4.5.0
@@ -105,6 +103,7 @@ require (
 	github.com/smartystreets/goconvey v1.8.1 // indirect
 	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect
+	github.com/urfave/negroni v1.0.0 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.49.0 // indirect
