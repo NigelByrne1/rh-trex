@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/ubi-minimal:9.2-750.1697534106
+FROM registry.access.redhat.com/ubi9/ubi-minimal:9.8-1788166357
 
 RUN \
     microdnf install -y \
