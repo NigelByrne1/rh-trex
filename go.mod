@@ -6,7 +6,7 @@ toolchain go1.24.9
 
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.2
-	github.com/Masterminds/squirrel v1.1.0
+	github.com/Masterminds/squirrel v1.5.4
 	github.com/auth0/go-jwt-middleware v0.0.0-20190805220309-36081240882b
 	github.com/bxcodec/faker/v3 v3.2.0
 	github.com/docker/go-healthcheck v0.1.0
